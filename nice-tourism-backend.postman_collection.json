@@ -1,0 +1,348 @@
+{
+    "info": {
+        "name": "Nice Tourism Backend",
+        "_postman_id": "abcd1234-efgh-5678-ijkl-9012mnopqrst",
+        "description": "Collection for Nice Tourism Backend API",
+        "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+    },
+    "item": [
+        {
+            "name": "Register",
+            "request": {
+                "method": "POST",
+                "header": [
+                    {
+                        "key": "Content-Type",
+                        "value": "application/json"
+                    }
+                ],
+                "body": {
+                    "mode": "raw",
+                    "raw": "{\n  \"name\": \"Test User\",\n  \"email\": \"test@example.com\",\n  \"password\": \"password\",\n  \"password_confirmation\": \"password\"\n}"
+                },
+                "url": {
+                    "raw": "{{base_url}}/register",
+                    "host": ["{{base_url}}"],
+                    "path": ["register"]
+                }
+            },
+            "response": [],
+            "event": [
+                {
+                    "listen": "test",
+                    "script": {
+                        "exec": [
+                            "try {",
+                            "    var jsonData = pm.response.json();",
+                            "    pm.environment.set(\"access_token\", jsonData.access_token);",
+                            "    pm.environment.set(\"refresh_token\", jsonData.refresh_token);",
+                            "} catch(e) {",
+                            "    console.log('Error parsing response JSON:', e);",
+                            "    console.log('Response was:', pm.response.text());",
+                            "}"
+                        ],
+                        "type": "text/javascript"
+                    }
+                }
+            ]
+        },
+        {
+            "name": "Login",
+            "request": {
+                "method": "POST",
+                "header": [
+                    {
+                        "key": "Content-Type",
+                        "value": "application/json"
+                    }
+                ],
+                "body": {
+                    "mode": "raw",
+                    "raw": "{\n  \"email\": \"test@example.com\",\n  \"password\": \"password\"\n}"
+                },
+                "url": {
+                    "raw": "{{base_url}}/login",
+                    "host": ["{{base_url}}"],
+                    "path": ["login"]
+                }
+            },
+            "response": [],
+            "event": [
+                {
+                    "listen": "test",
+                    "script": {
+                        "exec": [
+                            "try {",
+                            "    var jsonData = pm.response.json();",
+                            "    pm.environment.set(\"access_token\", jsonData.access_token);",
+                            "    pm.environment.set(\"refresh_token\", jsonData.refresh_token);",
+                            "} catch(e) {",
+                            "    console.log('Error parsing response JSON:', e);",
+                            "    console.log('Response was:', pm.response.text());",
+                            "}"
+                        ],
+                        "type": "text/javascript"
+                    }
+                }
+            ]
+        },
+        {
+            "name": "Refresh Token",
+            "request": {
+                "method": "POST",
+                "header": [
+                    {
+                        "key": "Authorization",
+                        "value": "Bearer {{refresh_token}}",
+                        "type": "text"
+                    }
+                ],
+                "url": {
+                    "raw": "{{base_url}}/auth/refresh-token",
+                    "host": ["{{base_url}}"],
+                    "path": ["auth", "refresh-token"]
+                }
+            },
+            "response": [],
+            "event": [
+                {
+                    "listen": "test",
+                    "script": {
+                        "exec": [
+                            "try {",
+                            "    var jsonData = pm.response.json();",
+                            "    pm.environment.set(\"access_token\", jsonData.access_token);",
+                            "} catch(e) {",
+                            "    console.log('Error parsing response JSON:', e);",
+                            "    console.log('Response was:', pm.response.text());",
+                            "}"
+                        ],
+                        "type": "text/javascript"
+                    }
+                }
+            ]
+        },
+        {
+            "name": "List Posts",
+            "request": {
+                "method": "GET",
+                "header": [
+                    {
+                        "key": "Authorization",
+                        "value": "Bearer {{access_token}}",
+                        "type": "text"
+                    }
+                ],
+                "url": {
+                    "raw": "{{base_url}}/posts",
+                    "host": ["{{base_url}}"],
+                    "path": ["posts"]
+                }
+            },
+            "response": []
+        },
+        {
+            "name": "Create Post",
+            "request": {
+                "method": "POST",
+                "header": [
+                    {
+                        "key": "Authorization",
+                        "value": "Bearer {{access_token}}",
+                        "type": "text"
+                    },
+                    {
+                        "key": "Content-Type",
+                        "value": "application/json"
+                    }
+                ],
+                "body": {
+                    "mode": "raw",
+                    "raw": "{\n  \"name_post\": \"My First Post\",\n  \"description\": \"This is the description of my first post\",\n  \"content\": {\n    \"text\": \"Here is the content of my first post\"\n  }\n}"
+                },
+                "url": {
+                    "raw": "{{base_url}}/posts",
+                    "host": ["{{base_url}}"],
+                    "path": ["posts"]
+                }
+            },
+            "response": []
+        },
+        {
+            "name": "Get Post",
+            "request": {
+                "method": "GET",
+                "header": [
+                    {
+                        "key": "Authorization",
+                        "value": "Bearer {{access_token}}",
+                        "type": "text"
+                    }
+                ],
+                "url": {
+                    "raw": "{{base_url}}/posts/{{post_id}}",
+                    "host": ["{{base_url}}"],
+                    "path": ["posts", "{{post_id}}"]
+                }
+            },
+            "response": []
+        },
+        {
+            "name": "Update Post",
+            "request": {
+                "method": "PUT",
+                "header": [
+                    {
+                        "key": "Authorization",
+                        "value": "Bearer {{access_token}}",
+                        "type": "text"
+                    },
+                    {
+                        "key": "Content-Type",
+                        "value": "application/json"
+                    }
+                ],
+                "body": {
+                    "mode": "raw",
+                    "raw": "{\n  \"name_post\": \"Updated Post\",\n  \"description\": \"This is the updated description\",\n  \"content\": {\n    \"text\": \"Updated content\"\n  }\n}"
+                },
+                "url": {
+                    "raw": "{{base_url}}/posts/{{post_id}}",
+                    "host": ["{{base_url}}"],
+                    "path": ["posts", "{{post_id}}"]
+                }
+            },
+            "response": []
+        },
+        {
+            "name": "Delete Post",
+            "request": {
+                "method": "DELETE",
+                "header": [
+                    {
+                        "key": "Authorization",
+                        "value": "Bearer {{access_token}}",
+                        "type": "text"
+                    }
+                ],
+                "url": {
+                    "raw": "{{base_url}}/posts/{{post_id}}",
+                    "host": ["{{base_url}}"],
+                    "path": ["posts", "{{post_id}}"]
+                }
+            },
+            "response": []
+        },
+        {
+            "name": "List Points of Interest",
+            "request": {
+                "method": "GET",
+                "header": [
+                    {
+                        "key": "Authorization",
+                        "value": "Bearer {{access_token}}",
+                        "type": "text"
+                    }
+                ],
+                "url": {
+                    "raw": "{{base_url}}/points-of-interest",
+                    "host": ["{{base_url}}"],
+                    "path": ["points-of-interest"]
+                }
+            },
+            "response": []
+        },
+        {
+            "name": "Create Point of Interest",
+            "request": {
+                "method": "POST",
+                "header": [
+                    {
+                        "key": "Authorization",
+                        "value": "Bearer {{access_token}}",
+                        "type": "text"
+                    },
+                    {
+                        "key": "Content-Type",
+                        "value": "application/json"
+                    }
+                ],
+                "body": {
+                    "mode": "raw",
+                    "raw": "{\n  \"name_point\": \"Eiffel Tower\",\n  \"coordinate\": {\n    \"latitude\": 48.8584,\n    \"longitude\": 2.2945\n  },\n  \"details\": {\n    \"openingHours\": \"\",\n    \"description\": \"\",\n    \"website\": \"\",\n    \"phoneNumber\": \"\",\n    \"email\": \"\",\n    \"accessibility\": \"\"\n  }\n}"
+                },
+                "url": {
+                    "raw": "{{base_url}}/points-of-interest",
+                    "host": ["{{base_url}}"],
+                    "path": ["points-of-interest"]
+                }
+            },
+            "response": []
+        },
+        {
+            "name": "Get Point of Interest",
+            "request": {
+                "method": "GET",
+                "header": [
+                    {
+                        "key": "Authorization",
+                        "value": "Bearer {{access_token}}",
+                        "type": "text"
+                    }
+                ],
+                "url": {
+                    "raw": "{{base_url}}/points-of-interest/{{point_of_interest_id}}",
+                    "host": ["{{base_url}}"],
+                    "path": ["points-of-interest", "{{point_of_interest_id}}"]
+                }
+            },
+            "response": []
+        },
+        {
+            "name": "Update Point of Interest",
+            "request": {
+                "method": "PUT",
+                "header": [
+                    {
+                        "key": "Authorization",
+                        "value": "Bearer {{access_token}}",
+                        "type": "text"
+                    },
+                    {
+                        "key": "Content-Type",
+                        "value": "application/json"
+                    }
+                ],
+                "body": {
+                    "mode": "raw",
+                    "raw": "{\n  \"name_point\": \"Updated Point\",\n  \"coordinate\": {\n    \"latitude\": 48.8584,\n    \"longitude\": 2.2945\n  },\n  \"details\": {\n    \"openingHours\": \"\",\n    \"description\": \"\",\n    \"website\": \"\",\n    \"phoneNumber\": \"\",\n    \"email\": \"\",\n    \"accessibility\": \"\"\n  }\n}"
+                },
+                "url": {
+                    "raw": "{{base_url}}/points-of-interest/{{point_of_interest_id}}",
+                    "host": ["{{base_url}}"],
+                    "path": ["points-of-interest", "{{point_of_interest_id}}"]
+                }
+            },
+            "response": []
+        },
+        {
+            "name": "Delete Point of Interest",
+            "request": {
+                "method": "DELETE",
+                "header": [
+                    {
+                        "key": "Authorization",
+                        "value": "Bearer {{access_token}}",
+                        "type": "text"
+                    }
+                ],
+                "url": {
+                    "raw": "{{base_url}}/points-of-interest/{{point_of_interest_id}}",
+                    "host": ["{{base_url}}"],
+                    "path": ["points-of-interest", "{{point_of_interest_id}}"]
+                }
+            },
+            "response": []
+        }
+    ]
+}
